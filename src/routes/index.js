@@ -12,8 +12,7 @@ const cleanFileName = (fileName) => {
 readdirSync(PATH_DIR).forEach((file) => {
   const fileName = cleanFileName(file);
   if (fileName !== 'index') {
-    router.use(`/${fileName}`, require(`./${fileName}`));
-    console.log(`Loaded route: ${fileName}`)
+    router.use(`/${fileName}`, require(`./${fileName}.routes`));
   }
 })
 

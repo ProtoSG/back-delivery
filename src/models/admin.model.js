@@ -4,3 +4,5 @@ class Admin {
     this.password = password;
   }
 }
+
+module.exports = Admin;
