@@ -4,10 +4,22 @@ const {
   put_admin
 } = require('../services/admin.service');
 
+const { encryptPass } = require('../helpers/bcrypt');
+const { get_admin_by_username } = require('../services/admin.service');
+
 const new_admin = async (req, res) => {
   try {
     const { username, password } = req.body;
-    const { success, message } = await post_admin(username, password);
+
+    const hashedPassword = await encryptPass(password);
+
+    const { success: exists } = await get_admin_by_username(username);
+    if (exists) {
+      return res.status(400).json({ message: 'Admin ya existe' });
+    }
+
+    const { success, message } = await post_admin(username, hashedPassword);
+
     if (success) {
       res.status(201).json({ message });
     } else {

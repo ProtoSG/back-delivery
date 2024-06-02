@@ -21,15 +21,16 @@ const get_pedidos = async () => {
 const post_pedido = async (pedido, productos, extras) => {
   try {
     const query = 'INSERT INTO Pedido (total, fecha_hora) VALUES (?, ?)';
-    const [lastInserRowid] = await connection.execute({
+    const { lastInsertRowid } = await connection.execute({
       sql: query,
       args: [pedido.total, pedido.fecha_hora]
     });
+    const id = Number(lastInsertRowid)
     productos.forEach(producto => {
-      post_pedido_producto(lastInserRowid, producto.id, producto.cantidad, producto.sub_total);
+      post_pedido_producto(id, producto.id, producto.cantidad, producto.subtotal);
     });
     extras.forEach(extra => {
-      post_pedido_extra(lastInserRowid, extra.id, extra.cantidad, extra.sub_total);
+      post_pedido_extra(id, extra.id, extra.cantidad, extra.subtotal);
     });
 
     return { success: true, message: 'Pedido creado con éxito' }

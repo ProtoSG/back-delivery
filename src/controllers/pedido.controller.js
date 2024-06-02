@@ -21,7 +21,8 @@ const all_orders = async (req, res) => { // GET
 
 const new_order = async (req, res) => { // POST
   try {
-    const { total, productos, extras, fecha_hora } = req.body;
+    const { total, productos, extras } = req.body;
+    const fecha_hora = new Date().toISOString().slice(0, 19).replace('T', ' ');
     const pedido = { total, fecha_hora }
     const { success, message } = await post_pedido(pedido, productos, extras);
     if (success) {

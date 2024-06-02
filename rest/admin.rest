@@ -10,12 +10,13 @@ User-Agent: VRC
 
 # GET 
 
-GET /2
+# GET /2
 
-# POST 
-# {
-#   "nombre":"prueba"
-# }
+POST 
+{
+  "username":"prueba",
+  "password":"asd"
+}
 
 # PUT /12
 # {
