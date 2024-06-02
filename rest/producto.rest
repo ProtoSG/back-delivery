@@ -1,4 +1,10 @@
+# --- local
 http://localhost:5000/producto
+
+# --- produccion
+# https://back-delivery-ulln.onrender.com/producto
+
+
 
 --silent
 --include

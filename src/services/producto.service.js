@@ -13,7 +13,7 @@ const get_productos = async () => {
     const productos = [];
     rows.forEach(row => {
       const categoria = new Categoria(row.categoria_id, row.nombre);
-      const producto = new Producto(row.producto_id, row.nombre, row.precio, row.imagen_url, categoria);
+      const producto = new Producto(row.producto_id, row.nombre, row.precio, row.descripcion, row.imagen_url, categoria);
       productos.push(producto);
     });
     return { success: true, data: productos }
