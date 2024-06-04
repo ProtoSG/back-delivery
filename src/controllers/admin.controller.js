@@ -1,7 +1,8 @@
 const {
   post_admin,
   get_admin_by_id,
-  put_admin
+  put_admin,
+  exist_admin_by_username_and_id
 } = require('../services/admin.service');
 
 const { encryptPass } = require('../helpers/bcrypt');
@@ -46,9 +47,25 @@ const admin_by_id = async (req, res) => {
 
 const update_admin = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { username, password } = req.body;
-    const { success, message } = await put_admin({ id, username, password });
+    const admin = req.admin;
+    console.log("admin", admin);
+    const { data } = await get_admin_by_username(admin.username);
+    console.log(data);
+    const { username, checkPassword, password } = req.body;
+
+    const match = await comparePass(checkPassword, data.password);
+    if (!match) {
+      return res.status(400).json({ message: 'Invalid password' });
+    }
+    const exists = await exist_admin_by_username_and_id(data.id, username);
+    if (exists) {
+      return res.status(400).json({ message: 'Admin ya existe' });
+    }
+
+    const hashedPassword = await encryptPass(password);
+
+    const { success, message } = await put_admin(data.id, username, hashedPassword);
+
     if (success) {
       res.status(200).json({ message });
     } else {

@@ -9,10 +9,9 @@ Content-Type: application/json; charset=utf-8
 User-Agent: VRC
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBydWViYSIsImlhdCI6MTcxNzQ2NTEwOCwiZXhwIjoxNzE3NDY4NzA4fQ.Ka8OyeFI5LZf3PLZNZsPN70M3qyV5LWwx7944MMhlQ8
 
-#POST /login 
-#{
-#  "username": "prueba",
-#  "password": "asd"
-#}
+POST /login 
+{
+  "username": "prueba1",
+  "password": "asd"
+}
 
-GET /profile
