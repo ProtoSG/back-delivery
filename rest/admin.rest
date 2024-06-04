@@ -8,23 +8,24 @@ Connection: keep-alive
 Content-Type: application/json; charset=utf-8
 User-Agent: VRC
 
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InBydWViYSIsImlhdCI6MTcxNzQ3Njk3MSwiZXhwIjoxNzE3NDgwNTcxfQ.4ksPCMkxQDQzB_Ao6I9O9tMhRP41VANvrDZFIQTuwR8
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTAsInVzZXJuYW1lIjoicHJ1ZWJhMDAxIiwiaWF0IjoxNzE3NDg0NTIxLCJleHAiOjE3MTc0ODgxMjF9.pnRPKNM30S6V8S0hUfe_7oCBSyJ8CoRhG_BwT2yx9Is
 
-#GET /profile 
+GET /profile 
 
 # GET /2
 
-POST 
-{
-  "username":"prueba",
-  "password":"asd"
-}
-
- #PUT 
- #{
- #  "username":"prueba 6",
- #  "password":"asd"
- #}
+#POST 
+#{
+#  "username":"prueba001",
+#  "password":"asd"
+#}
+#
+#PUT 
+#{
+#  "username":"prueba001",
+#  "checkPassword":"asd",
+#  "password":"asdasd"
+#}
 
 # DELETE /12
 

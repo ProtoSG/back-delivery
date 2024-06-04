@@ -48,18 +48,18 @@ const exist_admin_by_username_and_id = async (id, username) => {
   }
 }
 
-const get_admin_by_id = async (admin_id) => {
+const get_admin_by_id = async (id) => {
   try {
     const query = 'SELECT * FROM Admin WHERE admin_id = ?';
     const { rows } = await connection.execute({
       sql: query,
-      args: [admin_id]
+      args: [id]
     });
     if (rows.length === 0) {
       return false, 'Admin no encontrado';
     }
-    const { username, password } = rows[0];
-    const admin = new Admin(username, password);
+    const { admin_id, username, password } = rows[0];
+    const admin = new Admin(admin_id, username, password);
     return { success: true, data: admin }
   } catch (error) {
     return { success: false, message: error.message }

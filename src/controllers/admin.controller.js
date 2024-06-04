@@ -5,7 +5,7 @@ const {
   exist_admin_by_username_and_id
 } = require('../services/admin.service');
 
-const { encryptPass } = require('../helpers/bcrypt');
+const { encryptPass, comparePass } = require('../helpers/bcrypt');
 const { get_admin_by_username } = require('../services/admin.service');
 
 const new_admin = async (req, res) => {
