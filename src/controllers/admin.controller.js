@@ -49,7 +49,6 @@ const update_admin = async (req, res) => {
   try {
     const admin = req.admin;
 
-    console.log("admin", admin)
     const { data } = await get_admin_by_username(admin.username);
     const { checkPassword, password } = req.body;
 

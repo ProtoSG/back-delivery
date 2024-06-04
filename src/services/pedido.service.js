@@ -67,13 +67,10 @@ const get_ranking_productos_dias = async () => {
     `
     const { rows: datos } = await connection.execute(query);
 
-    console.log(datos)
     datos.sort((a, b) => new Date(a.fecha) - new Date(b.fecha));
 
     const fechaFin = new Date() - 5 * 60 * 60 * 1000;
     const fechaInicio = new Date(fechaFin) - 6 * 24 * 60 * 60 * 1000;
-
-    console.log(fechaInicio, fechaFin)
 
     const datosMap = new Map(datos.map(dato => [dato.fecha, dato.total_ventas]));
 
@@ -85,8 +82,6 @@ const get_ranking_productos_dias = async () => {
         value: datosMap.get(fechaStr) || 0
       });
     }
-
-    console.log(fechasCompletas)
 
     return { success: true, data: fechasCompletas }
   } catch (error) {
@@ -158,7 +153,6 @@ const get_ranking_productos_meses = async () => {
 
   const { rows: datos } = await connection.execute(query);
 
-  console.log(datos)
   const ventasPorMes = {};
   datos.forEach(dato => {
     if (dato.mes) {

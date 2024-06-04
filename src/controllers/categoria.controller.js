@@ -24,7 +24,6 @@ const all_categories = async (req, res) => {
 const new_category = async (req, res) => {
   try {
     const { nombre } = req.body;
-    console.log(nombre)
     const { success, message } = await post_categoria(nombre);
     if (success) {
       res.status(201).json({ message });
