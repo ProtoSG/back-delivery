@@ -66,12 +66,11 @@ const get_admin_by_id = async (id) => {
   }
 }
 
-const put_admin = async (id, username, password) => {
+const put_admin = async (id, password) => {
   try {
-    console.log(id, username, password)
-    const query = 'UPDATE Admin SET username = ?, password = ? where admin_id = ?';
+    const query = 'UPDATE Admin SET password = ? where admin_id = ?';
     await connection.execute({
-      sql: query, args: [username, password, id]
+      sql: query, args: [password, id]
     });
     return { success: true, message: 'Admin actualizado con éxito' }
   } catch (error) {

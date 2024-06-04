@@ -48,24 +48,19 @@ const admin_by_id = async (req, res) => {
 const update_admin = async (req, res) => {
   try {
     const admin = req.admin;
-    console.log("admin", admin);
+
+    console.log("admin", admin)
     const { data } = await get_admin_by_username(admin.username);
-    console.log(data);
-    const { username, checkPassword, password } = req.body;
+    const { checkPassword, password } = req.body;
 
     const match = await comparePass(checkPassword, data.password);
     if (!match) {
-      console.log("Contraseña incorrecta");
       return res.status(400).json({ message: 'Contraseña incorrecta' });
-    }
-    const exists = await exist_admin_by_username_and_id(data.id, username);
-    if (exists) {
-      return res.status(400).json({ message: 'Admin ya existe' });
     }
 
     const hashedPassword = await encryptPass(password);
 
-    const { success, message } = await put_admin(data.id, username, hashedPassword);
+    const { success, message } = await put_admin(data.id, hashedPassword);
 
     if (success) {
       res.status(200).json({ success, message });
