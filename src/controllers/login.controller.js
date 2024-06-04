@@ -12,13 +12,13 @@ const login = async (req, res) => {
         const token = createJwt(data.id, data.username);
         res.send({ token });
       } else {
-        res.status(400).json({ message: 'Invalid password' });
+        res.status(400).json({ mensaje: "Contraseña incorrecta" });
       }
     } else {
-      res.status(404).json({ message });
+      res.status(404).json({ mensaje: "Admin no existe" });
     }
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ mensaje: error.message });
   }
 }
 

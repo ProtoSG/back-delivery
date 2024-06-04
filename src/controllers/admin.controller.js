@@ -55,7 +55,8 @@ const update_admin = async (req, res) => {
 
     const match = await comparePass(checkPassword, data.password);
     if (!match) {
-      return res.status(400).json({ message: 'Invalid password' });
+      console.log("Contraseña incorrecta");
+      return res.status(400).json({ message: 'Contraseña incorrecta' });
     }
     const exists = await exist_admin_by_username_and_id(data.id, username);
     if (exists) {
@@ -67,12 +68,12 @@ const update_admin = async (req, res) => {
     const { success, message } = await put_admin(data.id, username, hashedPassword);
 
     if (success) {
-      res.status(200).json({ message });
+      res.status(200).json({ success, message });
     } else {
       res.status(400).json({ message });
     }
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ message: error.message });
   }
 };
 
