@@ -5,12 +5,14 @@ const {
   ranking_products
 } = require('../controllers/pedido_producto.controller');
 
+const { authenticateJwt } = require('../middelwares/sessionValidator')
 
 const router = Router();
 
 router
+  .get('/rank_productos/:date', authenticateJwt, ranking_products)
   .post('/', new_order_product)
   .get('/:id', order_product_by_id)
-  .get('/ranking/:date', ranking_products);
+
 
 module.exports = router;

@@ -1,0 +1,30 @@
+http://localhost:5000/pedido
+
+--silent
+--include
+
+Accept: application/json;
+Connection: keep-alive
+Content-Type: application/json; charset=utf-8
+User-Agent: VRC
+
+#GET 
+
+# GET /7
+
+# POST 
+# {
+#   "nombre":"prueba"
+# }
+
+# PUT /12
+# {
+#   "nombre":"prueba 6"
+# }
+
+# DELETE /12
+
+GET /datos_dias
+#GET /datos_semanas
+#GET /datos_meses
+#GET /datos_anos

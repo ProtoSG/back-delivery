@@ -59,9 +59,15 @@ const update_admin = async (req, res) => {
   }
 };
 
+const get_admin = async (req, res) => {
+  const admin = req.admin;
+  res.send(admin);
+}
+
 module.exports = {
   new_admin,
   admin_by_id,
-  update_admin
+  update_admin,
+  get_admin
 }
 

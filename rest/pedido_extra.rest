@@ -1,0 +1,27 @@
+http://localhost:5000/pedido_extra
+
+--silent
+--include
+
+Accept: application/json;
+Connection: keep-alive
+Content-Type: application/json; charset=utf-8
+User-Agent: VRC
+
+#GET /18
+
+# GET /7
+
+# POST 
+# {
+#   "nombre":"prueba"
+# }
+
+# PUT /12
+# {
+#   "nombre":"prueba 6"
+# }
+
+# DELETE /12
+
+GET /rank_extra/semana

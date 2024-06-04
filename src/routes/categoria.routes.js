@@ -8,15 +8,16 @@ const {
   get_ranking
 } = require('../controllers/categoria.controller');
 
+const { authenticateJwt } = require('../middelwares/sessionValidator')
 
 const router = Router();
 
 router
+  .get('/rank/:date', authenticateJwt, get_ranking)
   .get('/', all_categories)
   .post('/', new_category)
   .get('/:id', category_by_id)
   .put('/:id', update_category)
   .delete('/:id', remove_category)
-  .get('/ranking/:date', get_ranking);
 
 module.exports = router;

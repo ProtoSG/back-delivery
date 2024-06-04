@@ -2,7 +2,10 @@ const {
   get_pedidos,
   post_pedido,
   get_pedido_by_id,
-  get_ranking_productos
+  get_ranking_productos_dias,
+  get_ranking_productos_semanas,
+  get_ranking_productos_meses,
+  get_ranking_productos_anios
 } = require('../services/pedido.service');
 
 const all_orders = async (req, res) => { // GET
@@ -51,10 +54,51 @@ const order_by_id = async (req, res) => { // GET
   }
 }
 
-const ranking_orders = async (req, res) => { // GET
+const ranking_orders_days = async (req, res) => {
   try {
-    const { date } = req.params;
-    const { success, data, message } = await get_ranking_productos(date);
+    const { success, data, message } = await get_ranking_productos_dias();
+    if (success) {
+      res.send(data);
+    } else {
+      res.status(404).json(message);
+    }
+  }
+  catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+const ranking_orders_weeks = async (req, res) => {
+  try {
+    const { success, data, message } = await get_ranking_productos_semanas();
+    if (success) {
+      res.send(data);
+    } else {
+      res.status(404).json(message);
+    }
+  }
+  catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+const ranking_orders_months = async (req, res) => {
+  try {
+    const { success, data, message } = await get_ranking_productos_meses();
+    if (success) {
+      res.send(data);
+    } else {
+      res.status(404).json(message);
+    }
+  }
+  catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+}
+
+const ranking_orders_years = async (req, res) => {
+  try {
+    const { success, data, message } = await get_ranking_productos_anios();
     if (success) {
       res.send(data);
     } else {
@@ -70,5 +114,8 @@ module.exports = {
   all_orders,
   new_order,
   order_by_id,
-  ranking_orders
+  ranking_orders_days,
+  ranking_orders_weeks,
+  ranking_orders_months,
+  ranking_orders_years
 };

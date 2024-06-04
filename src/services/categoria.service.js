@@ -74,25 +74,43 @@ const delete_categoria = async (categoria_id) => {
 const get_ranking_categorias = async (date) => {
   try {
     const date_intervals = {
-      'dia': "date('now', 'localhost', '-5 hours')",
       'semana': "date('now', '-7 day', 'localtime', '-5 hours')",
       'mes': "date('now', '-1 month', 'localtime', '-5 hours')",
       'año': "date('now', '-1 year', 'localtime', '-5 hours')"
     };
+
     const date_interval = date_intervals[date];
-    const query = `
+
+    const baseQuery = `
       SELECT c.categoria_id, c.nombre, SUM(pp.sub_total) AS total
       FROM Producto p
       JOIN Categoria c ON p.categoria_id = c.categoria_id
       JOIN Pedido_Producto pp ON p.producto_id = pp.producto_id
       JOIN Pedido pe ON pp.pedido_id = pe.pedido_id
-      WHERE DATE(pe.fecha_hora) <= ?
-      GROUP BY c.categoria_id, c.nombre;
     `;
-    const { rows } = await connection.execute({
+
+    let query = "";
+    let queryParams = [];
+
+    if (date === 'dia') {
+      query = `${baseQuery}
+        WHERE DATE(pe.fecha_hora) = DATE('now', 'localtime', '-5 hours')
+        GROUP BY c.categoria_id, c.nombre;
+    `;
+    } else {
+      query = `${baseQuery}
+        WHERE DATE(pe.fecha_hora) <= ?
+         GROUP BY c.categoria_id, c.nombre;
+      `;
+      queryParams = [date_interval];
+    }
+
+    const result = await connection.execute({
       sql: query,
-      args: [date_interval]
+      args: queryParams
     });
+
+    const rows = result.rows;
     const categorias = [];
     rows.forEach(row => {
 

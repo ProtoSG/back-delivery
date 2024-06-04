@@ -30,54 +30,56 @@ const post_pedido_producto = async (pedido_id, producto_id, cantidad, sub_total)
 const get_ranking_productos = async (date) => {
   try {
     const date_intervals = {
-      'dia': "date('now', 'localhost', '-5 hours')",
       'semana': "date('now', '-7 day', 'localtime', '-5 hours')",
       'mes': "date('now', '-1 month', 'localtime', '-5 hours')",
       'año': "date('now', '-1 year', 'localtime', '-5 hours')"
     };
 
-    const date_interval = date_intervals.get(date);
+    const date_interval = date_intervals[date];
 
-    var query = ""
+    const baseQuery = `
+      SELECT p.producto_id, p.nombre, COUNT(*) AS cantidad_ventas, SUM(pp.sub_total) AS total_ventas
+      FROM Pedido_Producto pp
+      JOIN Producto p ON pp.producto_id = p.producto_id
+      JOIN Pedido pe ON pp.pedido_id = pe.pedido_id
+    `;
+
+    let query = "";
+    let queryParams = [];
+
     if (date === 'dia') {
-      query = `
-        SELECT p.producto_id, p.nombre, COUNT(*) AS cantidad_ventas, SUM(pp.sub_total) AS total_ventas
-        FROM Pedido_Producto pp
-        JOIN Producto p ON pp.producto_id = p.producto_id
-        JOIN Pedido pe ON pp.pedido_id = pe.pedido_id
-        WHERE DATE(pe.fecha_hora) = ?
+      query = `${baseQuery}
+        WHERE DATE(pe.fecha_hora) = DATE('now', 'localtime', '-5 hours')
         GROUP BY pp.producto_id, p.nombre
         ORDER BY cantidad_ventas DESC;
-    `;
+      `;
     } else {
-      query = `
-        SELECT p.producto_id, p.nombre, COUNT(*) AS cantidad_ventas, SUM(pp.sub_total) AS total_ventas
-        FROM Pedido_Producto pp
-        JOIN Producto p ON pp.producto_id = p.producto_id
-        JOIN Pedido pe ON pp.pedido_id = pe.pedido_id
+      query = `${baseQuery}
         WHERE DATE(pe.fecha_hora) <= ?
         GROUP BY pp.producto_id, p.nombre
         ORDER BY cantidad_ventas DESC;
       `;
+      queryParams = [date_interval];
     }
-    const { rows } = await connection.execute({
+
+    const result = await connection.execute({
       sql: query,
-      args: [date_interval]
+      args: queryParams
     });
-    const ranking = [];
-    rows.forEach(row => {
-      ranking.push({
-        producto_id: row.producto_id,
-        nombre: row.nombre,
-        cantidad: row.cantidad_ventas,
-        total: row.total_ventas
-      });
-    });
-    return { success: true, data: ranking }
+
+    const rows = result.rows;
+    const ranking = rows.map(row => ({
+      producto_id: row.producto_id,
+      nombre: row.nombre,
+      cantidad: row.cantidad_ventas,
+      total: row.total_ventas
+    }));
+    return { success: true, data: ranking };
   } catch (error) {
-    return { success: false, message: error.message }
+    return { success: false, message: error.message };
   }
-}
+};
+
 
 module.exports = {
   get_pedido_producto_by_id,
